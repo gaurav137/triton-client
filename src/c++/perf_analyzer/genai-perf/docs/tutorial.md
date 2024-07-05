@@ -127,6 +127,14 @@ pip install "git+https://github.com/triton-inference-server/triton_cli@0.0.8"
 # Download model:
 triton import -m gpt2 --backend vllm
 
+echo 'update model.json by using jq: '
+
+jq '.gpu_memory_utilization = 0.5' /root/models/gpt2/1/model.json > /root/models/gpt2/1/model.tmp.json && mv /root/models/gpt2/1/model.tmp.json /root/models/gpt2/1/model.json
+
+echo 'after jq command: '
+
+cat /root/models/gpt2/1/model.json
+
 # Run server:
 triton start
 ```
