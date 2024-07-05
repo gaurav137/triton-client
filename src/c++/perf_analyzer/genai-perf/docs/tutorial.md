@@ -129,7 +129,7 @@ triton import -m gpt2 --backend vllm
 
 echo 'update model.json by using jq: '
 
-jq '.gpu_memory_utilization = 0.5' /root/models/gpt2/1/model.json > /root/models/gpt2/1/model.tmp.json && mv /root/models/gpt2/1/model.tmp.json /root/models/gpt2/1/model.json
+jq '.gpu_memory_utilization = 0.9' /root/models/gpt2/1/model.json > /root/models/gpt2/1/model.tmp.json && mv /root/models/gpt2/1/model.tmp.json /root/models/gpt2/1/model.json
 
 echo 'after jq command: '
 
