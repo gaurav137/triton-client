@@ -119,7 +119,7 @@ Run Triton Inference Server with vLLM backend container:
 ```bash
 export RELEASE="yy.mm" # e.g. export RELEASE="24.05"
 
-docker run -it --net=host --gpus=all --shm-size=2g --ulimit memlock=-1 --ulimit stack=67108864 nvcr.io/nvidia/tritonserver:${RELEASE}-vllm-python-py3
+docker run -it --net=host --gpus=1 --shm-size=2g --ulimit memlock=-1 --ulimit stack=67108864 nvcr.io/nvidia/tritonserver:${RELEASE}-vllm-python-py3
 
 # Install Triton CLI (~5 min):
 pip install "git+https://github.com/triton-inference-server/triton_cli@0.0.8"
@@ -129,7 +129,7 @@ triton import -m gpt2 --backend vllm
 
 echo 'update model.json by using jq: '
 
-jq '.gpu_memory_utilization = 0.93 | .enforce_eager = true | .tensor_parallel_size = 8' /root/models/gpt2/1/model.json > /root/models/gpt2/1/model.json.tmp && mv /root/models/gpt2/1/model.json.tmp /root/models/gpt2/1/model.json
+jq '.gpu_memory_utilization = 0.93 | .enforce_eager = true ' /root/models/gpt2/1/model.json > /root/models/gpt2/1/model.json.tmp && mv /root/models/gpt2/1/model.json.tmp /root/models/gpt2/1/model.json
 
 echo 'after jq command: '
 
@@ -148,7 +148,7 @@ Run GenAI-Perf from Triton Inference Server SDK container:
 ```bash
 export RELEASE="yy.mm" # e.g. export RELEASE="24.05"
 
-docker run -it --net=host --gpus=all nvcr.io/nvidia/tritonserver:${RELEASE}-py3-sdk
+docker run -it --net=host --gpus=1 nvcr.io/nvidia/tritonserver:${RELEASE}-py3-sdk
 
 # Run GenAI-Perf in the container:
 genai-perf \
