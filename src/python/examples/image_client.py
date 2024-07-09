@@ -300,6 +300,37 @@ if __name__ == '__main__':
                         nargs='?',
                         default=None,
                         help='Input image / Input folder.')
+    parser.add_argument('-s',
+                        '--ssl',
+                        action="store_true",
+                        required=False,
+                        default=False,
+                        help='Enable encrypted link to the server using HTTPS')
+    parser.add_argument(
+        '--key-file',
+        type=str,
+        required=False,
+        default=None,
+        help='File holding client private key. Default is None.')
+    parser.add_argument(
+        '--cert-file',
+        type=str,
+        required=False,
+        default=None,
+        help='File holding client certificate. Default is None.')
+    parser.add_argument('--ca-certs',
+                        type=str,
+                        required=False,
+                        default=None,
+                        help='File holding ca certificate. Default is None.')
+    parser.add_argument(
+        '--insecure',
+        action="store_true",
+        required=False,
+        default=False,
+        help=
+        'Use no peer verification in SSL communications. Use with caution. Default is False.'
+    )
     FLAGS = parser.parse_args()
 
     if FLAGS.streaming and FLAGS.protocol.lower() != "grpc":
