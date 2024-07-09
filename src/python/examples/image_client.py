@@ -345,8 +345,28 @@ if __name__ == '__main__':
             # Specify large enough concurrency to handle the
             # the number of requests.
             concurrency = 20 if FLAGS.async_set else 1
-            triton_client = httpclient.InferenceServerClient(
-                url=FLAGS.url, verbose=FLAGS.verbose, concurrency=concurrency)
+            if FLAGS.ssl:
+                ssl_options = {}
+                if FLAGS.key_file is not None:
+                    ssl_options['keyfile'] = FLAGS.key_file
+                if FLAGS.cert_file is not None:
+                    ssl_options['certfile'] = FLAGS.cert_file
+                if FLAGS.ca_certs is not None:
+                    ssl_options['ca_certs'] = FLAGS.ca_certs
+                ssl_context_factory = None
+                if FLAGS.insecure:
+                    ssl_context_factory = gevent.ssl._create_unverified_context           
+                triton_client = httpclient.InferenceServerClient(
+                    url=FLAGS.url,
+                    verbose=FLAGS.verbose,
+                    concurrency=concurrency,
+                    ssl=True,
+                    ssl_options=ssl_options,
+                    insecure=FLAGS.insecure,
+                    ssl_context_factory=ssl_context_factory)
+            else:
+                triton_client = httpclient.InferenceServerClient(
+                    url=FLAGS.url, verbose=FLAGS.verbose, concurrency=concurrency)
     except Exception as e:
         print("client creation failed: " + str(e))
         sys.exit(1)
