@@ -119,6 +119,8 @@ Run Triton Inference Server with vLLM backend container:
 ```bash
 export RELEASE="yy.mm" # e.g. export RELEASE="24.05"
 
+export CUDA_VISIBLE_DEVICES=1
+
 docker run -it --net=host --gpus=all --shm-size=2g --ulimit memlock=-1 --ulimit stack=67108864 nvcr.io/nvidia/tritonserver:${RELEASE}-vllm-python-py3
 
 # Install Triton CLI (~5 min):
